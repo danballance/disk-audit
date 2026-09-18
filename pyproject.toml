@@ -1,0 +1,18 @@
+[build-system]
+requires = ["hatchling>=1.27,<2"]
+build-backend = "hatchling.build"
+
+[project]
+name = "disk-space-audit"
+version = "0.1.0"
+description = "Read-only disk allocation and cleanup-candidate reports for macOS and Linux"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = []
+
+[project.scripts]
+disk-audit = "disk_audit.cli:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/disk_audit"]
+
