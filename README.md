@@ -15,17 +15,16 @@ From a checkout:
 uvx --from . disk-audit
 ```
 
-From anywhere on this Mac:
+From anywhere on macOS or Linux, directly from GitHub (no local checkout needed):
 
 ```sh
-uvx --from /Users/danballance/Code/python/disk-audit disk-audit
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit
 ```
 
-On Linux, copy/clone this project and substitute its local path. The distribution
-name is `disk-space-audit`; the executable is `disk-audit`. It has **not** been
+uv fetches the package from GitHub and runs it locally on your machine. The
+distribution name is `disk-space-audit`; the executable is `disk-audit`. It has **not** been
 published to PyPI. A bare `uvx disk-audit` would look up another package rather than
-necessarily run this code. After publishing your repository, a Git source can be
-used with `uvx --from git+https://YOUR-REPOSITORY-URL disk-audit`.
+necessarily run this code.
 
 uv creates its own package/build caches and isolated environments. The auditor
 itself writes only to stdout/stderr. Packaging is therefore not a zero-write
@@ -40,22 +39,22 @@ PYTHONDONTWRITEBYTECODE=1 PYTHONPATH=src python3 -m disk_audit
 
 ```sh
 # Default scope, 2-minute scanning budget, 15 seconds per scan unit
-uvx --from . disk-audit
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit
 
 # Focus on particular directories; repeat --path to add roots
-uvx --from . disk-audit --path "$HOME" --path /opt --budget 300 --timeout 30
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit --path "$HOME" --path /opt --budget 300 --timeout 30
 
 # More detail; exclude an exact subtree
-uvx --from . disk-audit --min-size-mb 20 --top 40 --exclude "$HOME/Code"
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit --min-size-mb 20 --top 40 --exclude "$HOME/Code"
 
 # Machine-readable report: shell redirection intentionally creates this output file
-uvx --from . disk-audit --format json > disk-report.json
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit --format json > disk-report.json
 
 # Scripted checks return exit code 2 for incomplete coverage
-uvx --from . disk-audit --strict --format json > disk-report.json
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit --strict --format json > disk-report.json
 
 # File scans only, with no platform inventory commands
-uvx --from . disk-audit --path "$HOME/.nx" --no-system
+uvx --from git+https://github.com/danballance/disk-audit.git disk-audit --path "$HOME/.nx" --no-system
 ```
 
 Progress goes to stderr, so JSON on stdout remains parseable. Use `--quiet` to
